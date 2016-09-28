@@ -8,5 +8,5 @@
 </div>
 <div align="center">
 <img src="https://github.com/DyncKathline/SoftKeyboardDemo/blob/master/screenshots/screenshot3.png" width = "300" height = "500" alt="图片3" align=center />
-<img src="https://github.com/DyncKathline/SoftKeyboardDemo/blob/master/screenshots/screenshot.gif" width = "300" height = "500" alt="图片4" align=center />
+<img src="https://github.com/DyncKathline/SoftKeyboardDemo/blob/master/screenshots/Screenshot.gif" width = "300" height = "500" alt="图片4" align=center />
 </div>
