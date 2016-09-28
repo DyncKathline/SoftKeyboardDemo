@@ -48,6 +48,7 @@ public class SoftKeyboardUtil {
                 decorView.getWindowVisibleDisplayFrame(r);
                 // 屏幕高度。这个高度不含虚拟按键的高度
                 int screenHeight = decorView.getRootView().getHeight();
+                //虚拟按键
                 NavigationBarInfo navigationBarInfo = getNavigationBarInfo(activity);
                 if (navigationBarInfo.isHasNavigationBar()) {
                     navigationBarHeight = navigationBarInfo.getmPoint().y;
@@ -55,8 +56,8 @@ public class SoftKeyboardUtil {
                     navigationBarHeight = 0;
                 }
                 int heightDiff = screenHeight - (r.bottom - r.top);
-                // 在不显示软键盘时，heightDiff等于状态栏的高度
-                // 在显示软键盘时，heightDiff会变大，等于软键盘加状态栏的高度。
+                // 在不显示软键盘时，heightDiff等于状态栏的高度+虚拟按键高度。
+                // 在显示软键盘时，heightDiff会变大，等于软键盘+状态栏的高度+虚拟按键高度。
                 // 所以heightDiff大于状态栏高度时表示软键盘出现了，
                 // 这时可算出软键盘的高度，即heightDiff减去状态栏的高度
                 if (keyboardHeight == 0 && heightDiff > statusBarHeight + navigationBarHeight) {
