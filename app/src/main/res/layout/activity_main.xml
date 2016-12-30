@@ -3,32 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash"
     tools:context="org.dync.softkeyboarddemo.MainActivity">
 
-    <EditText
-        android:id="@+id/edt"
+
+    <Button
+        android:text="默认"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="获取键盘高度"/>
-    <TextView
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="181dp"
+        android:id="@+id/btn_default"
+        android:onClick="onClick" />
+
+    <Button
+        android:text="弹窗"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="键盘高度"
-        android:id="@+id/text"
-        android:layout_below="@+id/edt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/btn_default"
+        android:layout_alignStart="@+id/btn_default"
+        android:id="@+id/button4" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
+    <Button
+        android:text="弹窗"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/btn_default"
+        android:layout_alignStart="@+id/btn_default"
+        android:id="@+id/button3" />
 
-
+    <Button
+        android:text="弹窗"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/btn_default"
+        android:layout_alignStart="@+id/btn_default"
+        android:id="@+id/btn_dialog"
+        android:onClick="onClick" />
 </RelativeLayout>

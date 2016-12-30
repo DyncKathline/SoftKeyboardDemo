@@ -20,10 +20,10 @@ import java.lang.reflect.InvocationTargetException;
 public class SoftKeyboardUtil {
 
 
-    private static ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
+    private ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener;
     private static InputMethodManager imm;
-    private static int keyboardHeight;// 软键盘的高度
-    private static int navigationBarHeight;// 虚拟按键的高度
+    private int keyboardHeight;// 软键盘的高度
+    private int navigationBarHeight;// 虚拟按键的高度
 
     /**
      * 监听键盘高度和键盘时候处于打开状态，在调用的Activity中的onDestroy()方法中调用
@@ -32,7 +32,7 @@ public class SoftKeyboardUtil {
      * @param activity
      * @param listener
      */
-    public static void observeSoftKeyboard(final Activity activity, final OnSoftKeyboardChangeListener listener) {
+    public void observeSoftKeyboard(final Activity activity, final OnSoftKeyboardChangeListener listener) {
         final View decorView = activity.getWindow().getDecorView();
         final int statusBarHeight = getStatusBarHeight(activity);// 状态栏的高度
         decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -55,25 +55,25 @@ public class SoftKeyboardUtil {
                 }else {
                     navigationBarHeight = 0;
                 }
-                int heightDiff = screenHeight - (r.bottom - r.top);
+                int heightDiff = screenHeight - r.bottom;
                 // 在不显示软键盘时，heightDiff等于状态栏的高度+虚拟按键高度。
                 // 在显示软键盘时，heightDiff会变大，等于软键盘+状态栏的高度+虚拟按键高度。
                 // 所以heightDiff大于状态栏高度时表示软键盘出现了，
                 // 这时可算出软键盘的高度，即heightDiff减去状态栏的高度
-                if (keyboardHeight == 0 && heightDiff > statusBarHeight + navigationBarHeight) {
-                    keyboardHeight = heightDiff - statusBarHeight - navigationBarHeight;
+                if (heightDiff > navigationBarHeight) {
+                    keyboardHeight = heightDiff - navigationBarHeight;
                 }
                 if (isShowKeyboard) {
                     // 如果软键盘是弹出的状态，并且heightDiff小于等于状态栏高度，
                     // 说明这时软键盘已经收起
-                    if (heightDiff <= statusBarHeight + navigationBarHeight) {
+                    if (heightDiff <= navigationBarHeight) {
                         isShowKeyboard = false;
                         listener.onSoftKeyBoardChange(keyboardHeight, isShowKeyboard);
                     }
                 } else {
                     // 如果软键盘是收起的状态，并且heightDiff大于状态栏高度，
                     // 说明这时软键盘已经弹出
-                    if (heightDiff > statusBarHeight + navigationBarHeight) {
+                    if (heightDiff > navigationBarHeight) {
                         isShowKeyboard = true;
                         listener.onSoftKeyBoardChange(keyboardHeight, isShowKeyboard);
                     }
@@ -86,13 +86,13 @@ public class SoftKeyboardUtil {
         void onSoftKeyBoardChange(int softKeybardHeight, boolean isShow);
     }
 
-    public static void removeGlobalOnLayoutListener(Activity activity) {
+    public void removeGlobalOnLayoutListener(Activity activity) {
         final View decorView = activity.getWindow().getDecorView();
-        if (SoftKeyboardUtil.onGlobalLayoutListener != null) {
+        if (onGlobalLayoutListener != null) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                decorView.getViewTreeObserver().removeGlobalOnLayoutListener(SoftKeyboardUtil.onGlobalLayoutListener);
+                decorView.getViewTreeObserver().removeGlobalOnLayoutListener(onGlobalLayoutListener);
             } else {
-                decorView.getViewTreeObserver().removeOnGlobalLayoutListener(SoftKeyboardUtil.onGlobalLayoutListener);
+                decorView.getViewTreeObserver().removeOnGlobalLayoutListener(onGlobalLayoutListener);
             }
         }
     }
@@ -121,7 +121,7 @@ public class SoftKeyboardUtil {
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void hideKeyboard(Activity activity) {
+    public static void hideKeyboard(Activity activity) {
         imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
