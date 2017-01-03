@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,6 +24,7 @@ public class DefaultDialogFragment extends DialogFragment {
 
 
     private View view;
+    private LinearLayout llEdit;
     private EditText editText;
     private Button send;
 
@@ -33,41 +35,34 @@ public class DefaultDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setLayout();
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);//必须放在setContextView之前调用, 去掉Dialog中的蓝线
         view = inflater.inflate(R.layout.fragment_default_dialog, container);
+        setLayout();
         initData();
         return view;
     }
 
     private void initData() {
-        final Window window = getDialog().getWindow();
-        window.getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                setHideVirtualKey(window);
-            }
-        });
-        editText = (EditText) view.findViewById(R.id.editText);
-        send = (Button) view.findViewById(R.id.btn_send);
-
-//        getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+//        final Window window = getDialog().getWindow();
+//        window.getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
 //            @Override
-//            public void onShow(DialogInterface dialog) {
-//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+//            public void onSystemUiVisibilityChange(int visibility) {
+//                setHideVirtualKey(window);
 //            }
 //        });
+        llEdit = (LinearLayout) view.findViewById(R.id.ll_input_layout);
+        editText = (EditText) view.findViewById(R.id.edit_send_message);
+        send = (Button) view.findViewById(R.id.btn_send);
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
-                public void run() {
-                    InputMethodManager inputManager =
-                            (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-                }
-            },
-        499);
-
+                           public void run() {
+                               InputMethodManager inputManager =
+                                       (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                               inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+                           }
+                       },
+                499);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,10 +86,9 @@ public class DefaultDialogFragment extends DialogFragment {
     }
 
     private void setLayout() {
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);//必须放在setContextView之前调用, 去掉Dialog中的蓝线
         Window window = getDialog().getWindow();
-//        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏，即没有系统状态栏
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//透明状态栏
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏，即没有系统状态栏
+//        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//透明状态栏
         window.getDecorView().setPadding(0, 0, 0, 0);
         window.setBackgroundDrawable(new ColorDrawable(0));//背景透明
         WindowManager.LayoutParams lp = window.getAttributes();
