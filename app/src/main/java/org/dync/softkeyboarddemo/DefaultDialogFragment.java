@@ -2,7 +2,6 @@ package org.dync.softkeyboarddemo;
 
 
 import android.app.DialogFragment;
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,6 +24,7 @@ public class DefaultDialogFragment extends DialogFragment {
 
     private View view;
     private LinearLayout llEdit;
+    private TextView close;
     private EditText editText;
     private Button send;
 
@@ -51,22 +51,37 @@ public class DefaultDialogFragment extends DialogFragment {
 //            }
 //        });
         llEdit = (LinearLayout) view.findViewById(R.id.ll_input_layout);
+        close = (TextView) view.findViewById(R.id.close);
         editText = (EditText) view.findViewById(R.id.edit_send_message);
         send = (Button) view.findViewById(R.id.btn_send);
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
                            public void run() {
-                               InputMethodManager inputManager =
-                                       (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                               inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+                               SoftKeyboardUtil.showKeyboard(editText.getContext(), editText);
                            }
                        },
-                499);
+                150);//这里键盘没有自动弹起可以把时间值设大一点
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        SoftKeyboardUtil softKeyboardUtil = new SoftKeyboardUtil();
+        softKeyboardUtil.observeSoftKeyboard(getActivity(), new SoftKeyboardUtil.OnSoftKeyboardChangeListener() {
+            @Override
+            public void onSoftKeyBoardChange(int softKeybardHeight, boolean isShow) {
+                if (isShow){
+                    dismiss();
+                }
             }
         });
     }

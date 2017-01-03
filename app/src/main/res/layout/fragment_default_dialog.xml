@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/close"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/ll_input_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
         android:background="#90000000"
         android:orientation="horizontal"
         android:padding="8dp">
@@ -28,8 +34,8 @@
                 android:background="@null"
                 android:hint="说两句"
                 android:imeOptions="flagNoExtractUi"
-                android:paddingTop="8dp"
                 android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="#20ffffff"
                 android:textSize="14sp" />
@@ -45,9 +51,9 @@
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:textColor="@android:color/white"
                 android:text="发送"
+                android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

@@ -56,22 +56,22 @@ public class SoftKeyboardUtil {
                     navigationBarHeight = 0;
                 }
                 int heightDiff = screenHeight - r.bottom;
-                // 在不显示软键盘时，heightDiff等于状态栏的高度+虚拟按键高度。
-                // 在显示软键盘时，heightDiff会变大，等于软键盘+状态栏的高度+虚拟按键高度。
-                // 所以heightDiff大于状态栏高度时表示软键盘出现了，
-                // 这时可算出软键盘的高度，即heightDiff减去状态栏的高度
+                // 在不显示软键盘时，heightDiff等于虚拟按键高度。
+                // 在显示软键盘时，heightDiff会变大，等于软键盘+虚拟按键高度。
+                // 所以heightDiff大于虚拟按键高度时表示软键盘出现了，
+                // 这时可算出软键盘的高度，即heightDiff减去虚拟按键的高度
                 if (heightDiff > navigationBarHeight) {
                     keyboardHeight = heightDiff - navigationBarHeight;
                 }
                 if (isShowKeyboard) {
-                    // 如果软键盘是弹出的状态，并且heightDiff小于等于状态栏高度，
+                    // 如果软键盘是弹出的状态，并且heightDiff小于等于虚拟按键高度，
                     // 说明这时软键盘已经收起
                     if (heightDiff <= navigationBarHeight) {
                         isShowKeyboard = false;
                         listener.onSoftKeyBoardChange(keyboardHeight, isShowKeyboard);
                     }
                 } else {
-                    // 如果软键盘是收起的状态，并且heightDiff大于状态栏高度，
+                    // 如果软键盘是收起的状态，并且heightDiff大于虚拟按键高度，
                     // 说明这时软键盘已经弹出
                     if (heightDiff > navigationBarHeight) {
                         isShowKeyboard = true;
@@ -130,6 +130,7 @@ public class SoftKeyboardUtil {
     public static void showKeyboard(Context context, View view) {
         imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(view, 0);
+//        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
     public static class NavigationBarInfo {
