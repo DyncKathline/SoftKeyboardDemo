@@ -74,16 +74,6 @@ public class DefaultDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
-        SoftKeyboardUtil softKeyboardUtil = new SoftKeyboardUtil();
-        softKeyboardUtil.observeSoftKeyboard(getActivity(), new SoftKeyboardUtil.OnSoftKeyboardChangeListener() {
-            @Override
-            public void onSoftKeyBoardChange(int softKeybardHeight, boolean isShow) {
-                if (isShow){
-                    dismiss();
-                }
-            }
-        });
     }
 
     public void setHideVirtualKey(Window window) {
